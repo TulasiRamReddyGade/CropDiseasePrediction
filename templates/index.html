@@ -11,6 +11,18 @@
       <h1>Take a Photo</h1>
       <video id="video" autoplay></video>
       <canvas id="canvas" style="display: none"></canvas>
+      <div>
+        <input
+          type="radio"
+          id="chilli"
+          name="category"
+          value="chilli"
+          checked
+        />
+        <label for="chilli">Chilli</label>
+        <input type="radio" id="tomato" name="category" value="tomato" />
+        <label for="tomato">Tomato</label>
+      </div>
       <button id="capture">Capture Photo</button>
       <button id="send" style="display: none">Send Photo</button>
       <img id="preview" alt="Captured Photo" />

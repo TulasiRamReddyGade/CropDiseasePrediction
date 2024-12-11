@@ -5,6 +5,7 @@ const captureButton = document.getElementById("capture");
 const sendButton = document.getElementById("send");
 const preview = document.getElementById("preview");
 const ctx = canvas.getContext("2d");
+const categoryInputs = document.getElementsByName("category");
 
 // Access webcam
 navigator.mediaDevices
@@ -36,7 +37,22 @@ captureButton.addEventListener("click", () => {
 sendButton.addEventListener("click", () => {
   const imageData = canvas.toDataURL("image/png");
 
-  fetch("http://127.0.0.1:5000/upload", {
+  // Determine the selected category
+  let selectedCategory = "chilli"; // Default category
+  categoryInputs.forEach((input) => {
+    if (input.checked) {
+      selectedCategory = input.value;
+    }
+  });
+
+  // Determine the endpoint based on the selected category
+  const endpoint =
+    selectedCategory === "chilli"
+      ? "http://127.0.0.1:5000/predictchillidisesase"
+      : "http://127.0.0.1:5000/predicttomatodisesase";
+
+  // Send the request
+  fetch(endpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -46,9 +62,8 @@ sendButton.addEventListener("click", () => {
     .then((response) => response.json())
     .then((data) => {
       alert(data.message);
-      console.log(data);
     })
     .catch((error) => {
-      console.error("Error uploading photo: ", error);
+      console.error(`Error uploading photo to ${selectedCategory}:`, error);
     });
 });
